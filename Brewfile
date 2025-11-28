@@ -36,7 +36,7 @@ brew 'lsd'
 brew 'fish'
 
 # CLI Basics
-brew 'broot'        # Interactive directory navigation
+# brew 'aria2'        # Resuming download util (better wget)
 # brew 'ctags'        # Indexing of file info + headers
 # brew 'duf'          # Get info on mounted disks (better df)
 # brew 'entr'         # Run command whenever file changes
@@ -47,23 +47,26 @@ brew 'broot'        # Interactive directory navigation
 # brew 'jdupes'       # Duplicate file finder
 # brew 'jq'           # JSON parser, output and query files
 # brew 'just'         # Powerful command runner (better make)
+# brew 'most'         # Multi-window scroll pager (better less)
 # brew 'procs'        # Advanced process viewer (better ps)
 # brew 'ripgrep'      # Searching within files (better grep)
 # brew 'rsync'        # Fast incremental file transfer
 # brew 'sd'           # RegEx find and replace (better sed)
 # brew 'thefuck'      # Auto-correct miss-typed commands
+# brew 'tokei'        # Count lines of code (better cloc)
 # brew 'trash-cli'    # Record and restore removed files
+# brew 'watch'        # Run commands periorically
 # brew 'xsel'         # Copy paste access to the X clipboard
 # brew 'zoxide'       # Auto-learning navigation (better cd)
-brew 'gnupg' if OS.mac?
-# brew 'aria2'        # Resuming download util (better wget)
-brew 'bat'          # Output highlighting (better cat)
+brew 'bat'            # Output highlighting (better cat)
+brew 'broot'          # Interactive directory navigation
 brew 'diff-so-fancy'# Readable file compares (better diff)
-# brew 'most'         # Multi-window scroll pager (better less)
-brew 'tldr'         # Community-maintained docs (better man)
-# brew 'tokei'        # Count lines of code (better cloc)
-brew 'tree'         # Directory listings as tree structure
-# brew 'watch'        # Run commands periorically
+brew 'fd'             #  Simple, fast and user-friendly alternative to find
+brew 'gnupg' if OS.mac?
+brew 'ripgrep'        # Search tool like grep and The Silver Searcher
+brew 'the_silver_searcher'
+brew 'tldr'           # Community-maintained docs (better man)
+brew 'tree'           # Directory listings as tree structure
 
 
 # CLI Monitoring and Performance Apps
@@ -83,19 +86,18 @@ brew 'tree'         # Directory listings as tree structure
 # brew 'buku'         # Bookmark manager
 # brew 'cmus'         # Music player
 # brew 'cointop'      # Crypto prices and portfolio
+# brew 'ddgr'         # Web search, via DuckDuckGo
 # brew 'khal'         # Calendar client
 # brew 'mutt'         # Email client
 # brew 'newsboat'     # RSS / ATOM reader
 # brew 'pass'         # Password store
 # brew 'rclone'       # Manage cloud storage
 # brew 'task'         # Todo + task management
-# brew 'ddgr'         # Web search, via DuckDuckGo
-brew 'the_silver_searcher'
+# cask 'spacedrive' 
 cask 'foxitreader'
 cask 'libreoffice'
 cask 'maccy'
 cask 'mucommander' 
-# cask 'spacedrive' 
 
 
 # CLI Development Suits
@@ -190,6 +192,7 @@ brew 'openssl'        # Cryptography and SSL/TLS Toolkit
 cask 'gimp'         # Photo editor
 # cask 'telegram'
 cask 'whatsapp'
+cask 'krita'
 
 # Media
 # cask 'spotify', args: { require_sha: false } # Propietary music streaming

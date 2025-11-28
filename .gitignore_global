@@ -5,6 +5,7 @@
 .directory
 .Trash-*
 .nfs*
+.git
 
 # MacOS
 .DS_Store
