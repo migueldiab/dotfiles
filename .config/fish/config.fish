@@ -10,4 +10,6 @@ if status is-interactive
     alias gb='git branch'
     alias gco='git checkout'
     alias gd='git diff'
+    alias gcm='git commit -m'
+    alias gp='git push'
 end
