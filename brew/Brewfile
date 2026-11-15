@@ -20,6 +20,20 @@ else
   # Windows?
 end
 
+def linux_CLI_essentials
+  #############################################################
+  # Command Line                                              #
+  #############################################################
+
+  return unless OS.linux?
+end
+
+def linux_basics
+  return unless OS.linux?
+end
+
+
+
 # Taps
 #tap 'blacktop/tap'
 #tap 'browsh-org/homebrew-browsh'
@@ -284,20 +298,6 @@ def mac_basics
   # cask 'little-snitch'  # Firewall app viewing / blocking traffic
   cask 'keka'           # File archiver and extractor
   cask 'sublime-text'
-end
-
-def linux_CLI_essentials
-  #############################################################
-  # Command Line                                              #
-  #############################################################
-
-  return unless OS.linux?
-end
-
-def linux_basics
-  return unless OS.linux?
-  tap 'chmouel/raffi', 'https://github.com/chmouel/raffi', trusted: true
-  brew 'raffi'
 end
 
 mac_CLI_essentials
