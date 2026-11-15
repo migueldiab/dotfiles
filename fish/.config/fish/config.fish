@@ -12,4 +12,5 @@ if status is-interactive
     alias gd='git diff'
     alias gcm='git commit -m'
     alias gp='git push'
+    alias cat='batcat'
 end
