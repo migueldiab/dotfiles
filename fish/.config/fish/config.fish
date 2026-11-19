@@ -14,3 +14,6 @@ if status is-interactive
     alias gp='git push'
     alias cat='batcat'
 end
+
+# Hermes Agent command
+fish_add_path "$HOME/.local/bin"

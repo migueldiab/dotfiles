@@ -1,0 +1,2583 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConfigSchema",
+  "description": "Public schema representation of the v1 config format, used for JSON Schema generation.",
+  "type": "object",
+  "properties": {
+    "addons": {
+      "description": "Addon configurations (script filters, web searches, etc.)",
+      "$ref": "#/$defs/AddonsConfig"
+    },
+    "general": {
+      "description": "General settings (UI, theme, font, etc.)",
+      "$ref": "#/$defs/GeneralConfig"
+    },
+    "launchers": {
+      "description": "Launcher entries keyed by name",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/RaffiConfig"
+      }
+    },
+    "version": {
+      "description": "Config format version (currently 1)",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "version"
+  ],
+  "$defs": {
+    "AddonsConfig": {
+      "description": "Container for all addon configurations",
+      "type": "object",
+      "properties": {
+        "apps": {
+          "$ref": "#/$defs/AppsAddonConfig"
+        },
+        "audio": {
+          "$ref": "#/$defs/AudioAddonConfig"
+        },
+        "bitwarden": {
+          "$ref": "#/$defs/BitwardenAddonConfig"
+        },
+        "bluetooth": {
+          "$ref": "#/$defs/BluetoothAddonConfig"
+        },
+        "bookmarks": {
+          "$ref": "#/$defs/BookmarksAddonConfig"
+        },
+        "browser_history": {
+          "$ref": "#/$defs/BrowserHistoryAddonConfig",
+          "default": {
+            "cache_seconds": null,
+            "close_on_action": null,
+            "enabled": true,
+            "max_entries": null,
+            "open_with": null,
+            "sources": null,
+            "trigger": null
+          }
+        },
+        "browser_tabs": {
+          "$ref": "#/$defs/BrowserTabsAddonConfig"
+        },
+        "calculator": {
+          "$ref": "#/$defs/CalculatorAddonConfig"
+        },
+        "clipboard": {
+          "$ref": "#/$defs/ClipboardAddonConfig"
+        },
+        "color": {
+          "$ref": "#/$defs/ColorAddonConfig"
+        },
+        "currency": {
+          "$ref": "#/$defs/CurrencyAddonConfig"
+        },
+        "devtools": {
+          "$ref": "#/$defs/DevtoolsAddonConfig"
+        },
+        "emoji": {
+          "$ref": "#/$defs/EmojiAddonConfig"
+        },
+        "file_browser": {
+          "$ref": "#/$defs/FileBrowserAddonConfig"
+        },
+        "keyword_min_chars": {
+          "description": "Characters to type before addon keywords are suggested (default: 3).\nA keyword typed in full is always suggested.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "default": null,
+          "minimum": 0
+        },
+        "kill": {
+          "$ref": "#/$defs/KillAddonConfig"
+        },
+        "media": {
+          "$ref": "#/$defs/MediaAddonConfig"
+        },
+        "pass": {
+          "$ref": "#/$defs/PassAddonConfig"
+        },
+        "script_filters": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ScriptFilterConfig"
+          }
+        },
+        "slack": {
+          "$ref": "#/$defs/SlackAddonConfig",
+          "default": {
+            "cache_minutes": null,
+            "close_on_action": null,
+            "cookie_command": null,
+            "enabled": false,
+            "message_order": "newest_first",
+            "open_in": "desktop",
+            "token_command": null,
+            "trigger": null,
+            "unread_conversations": [],
+            "warm_interval_minutes": null
+          }
+        },
+        "system": {
+          "$ref": "#/$defs/SystemAddonConfig"
+        },
+        "terminal": {
+          "$ref": "#/$defs/TerminalAddonConfig"
+        },
+        "text_snippets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TextSnippetSourceConfig"
+          }
+        },
+        "units": {
+          "$ref": "#/$defs/UnitsAddonConfig"
+        },
+        "web_searches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WebSearchConfig"
+          }
+        },
+        "windows": {
+          "$ref": "#/$defs/WindowsAddonConfig"
+        },
+        "world_clock": {
+          "$ref": "#/$defs/WorldClockAddonConfig"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AppsAddonConfig": {
+      "description": "Configuration for listing installed applications next to the launchers",
+      "type": "object",
+      "properties": {
+        "actions": {
+          "description": "Also list the actions applications declare, such as Firefox's\n\"New Private Window\" (default: true).",
+          "type": "boolean",
+          "default": true
+        },
+        "enabled": {
+          "description": "List the installed desktop applications after the launchers\n(default: false). Apps named like a launcher, or running the same\ncommand, are left out.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "AudioAddonConfig": {
+      "description": "Configuration for the audio device switcher addon",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after an action instead of staying open and refreshing\nthe list (default: `general.close_on_action`, else false).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "max_volume": {
+          "description": "Highest output volume the volume rows set, in percent (default: 100).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "default": null,
+          "minimum": 0
+        },
+        "trigger": {
+          "description": "Keyword that opens the audio device list (default: `audio`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "volume_step": {
+          "description": "Percent the Volume up and Volume down rows change the output volume\nby (default: 5).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "default": null,
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "BitwardenAddonConfig": {
+      "description": "Configuration for the Bitwarden addon, backed by rbw",
+      "type": "object",
+      "properties": {
+        "clipboard_timeout": {
+          "description": "Seconds before a copied secret is cleared from the clipboard\n(default: 45, 0 = never).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "default": null,
+          "minimum": 0
+        },
+        "close_on_action": {
+          "description": "Close Raffi after copying a secret (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "trigger": {
+          "description": "Keyword that opens the vault list (default: `bw`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "type_delay_ms": {
+          "description": "Milliseconds to wait after Raffi closes before typing (default: 200).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "default": null,
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "BluetoothAddonConfig": {
+      "description": "Configuration for the Bluetooth addon",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after an action instead of staying open and refreshing\nthe list (default: `general.close_on_action`, else false).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "trigger": {
+          "description": "Keyword that opens the Bluetooth list (default: `bt`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "BookmarkBrowser": {
+      "description": "A browser the bookmarks and browser history addons read from or open\nlinks with",
+      "type": "string",
+      "enum": [
+        "firefox",
+        "librewolf",
+        "zen",
+        "floorp",
+        "waterfox",
+        "chrome",
+        "chrome-beta",
+        "chrome-dev",
+        "chromium",
+        "brave",
+        "edge",
+        "vivaldi",
+        "opera",
+        "thorium"
+      ]
+    },
+    "BookmarkOpener": {
+      "description": "What opens a bookmark: a browser name, or a command whose `{url}`\narguments are replaced by the link",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BookmarkBrowser"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "BookmarkSourceConfig": {
+      "description": "One place bookmarks are read from",
+      "type": "object",
+      "properties": {
+        "browser": {
+          "description": "Browser whose profiles hold the bookmarks. Optional with `path`,\nwhere it only picks the browser that opens the links.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BookmarkBrowser"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "folder": {
+          "description": "Only list this folder, such as `Bookmarks Toolbar/Work`.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "name": {
+          "description": "Label of the source in the list (default: the browser and profile).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "open_with": {
+          "description": "Opens this source's bookmarks (default: `addons.bookmarks.open_with`,\nelse the browser and profile they come from).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BookmarkOpener"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "path": {
+          "description": "A bookmarks file read directly: Chromium's `Bookmarks`, Firefox's\n`places.sqlite`, or the profile directory holding one.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "profile": {
+          "description": "Profile to read, by name or directory (default: every profile).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "BookmarksAddonConfig": {
+      "description": "Configuration for the browser bookmarks addon (native UI only)",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after opening a bookmark (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "open_with": {
+          "description": "Opens bookmarks of every source without its own `open_with`\n(default: the browser and profile they come from).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BookmarkOpener"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "sources": {
+          "description": "Where bookmarks come from (default: every profile of every supported\nbrowser found).",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/BookmarkSourceConfig"
+          }
+        },
+        "trigger": {
+          "description": "Keyword that opens the bookmarks (default: `bm`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "BrowserHistoryAddonConfig": {
+      "description": "Configuration for the browser history addon (native UI only)",
+      "type": "object",
+      "properties": {
+        "cache_seconds": {
+          "description": "Seconds cached browser-history snapshots stay fresh (default: 300).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "default": null,
+          "minimum": 0
+        },
+        "close_on_action": {
+          "description": "Close Raffi after opening a page (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "max_entries": {
+          "description": "Most recent and most visited URLs read per source (default: 2000,\nclamped to 100..10000).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "default": null,
+          "minimum": 0
+        },
+        "open_with": {
+          "description": "Opens pages of every source without its own `open_with`\n(default: the browser and profile they come from).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BookmarkOpener"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "sources": {
+          "description": "Where history comes from (default: every profile of every supported\nbrowser found).",
+          "type": [
+            "array",
+            "null"
+          ],
+          "default": null,
+          "items": {
+            "$ref": "#/$defs/BrowserHistorySourceConfig"
+          }
+        },
+        "trigger": {
+          "description": "Keyword that opens browser history (default: `hist`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "BrowserHistorySourceConfig": {
+      "description": "One place browser history is read from",
+      "type": "object",
+      "properties": {
+        "browser": {
+          "description": "Browser whose profiles hold the history. Optional with `path`,\nwhere it only picks the browser that opens the links.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BookmarkBrowser"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "name": {
+          "description": "Label of the source in the list (default: the browser and profile).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "open_with": {
+          "description": "Opens this source's pages (default: `addons.browser_history.open_with`,\nelse the browser and profile they come from).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BookmarkOpener"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "path": {
+          "description": "A history file read directly: Chromium's `History`, Firefox's\n`places.sqlite`, or the profile directory holding one.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "profile": {
+          "description": "Profile to read, by name or directory (default: every profile).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "BrowserTabsAddonConfig": {
+      "description": "Configuration for the browser tabs addon, fed by the Vicinae browser\nextension",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after switching to a tab (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "favicon_service": {
+          "description": "Where to download site icons the browsers have not stored themselves\n(default: `twenty`). Downloading sends the domains of open tabs to\nthat service; `none` keeps favicons to the browsers' own and stops\nfetching the selected page for its preview.",
+          "$ref": "#/$defs/FaviconService"
+        },
+        "trigger": {
+          "description": "Keyword that opens the tab list (default: `tabs`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "CalculatorAddonConfig": {
+      "description": "Configuration for the calculator addon",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after copying a calculation result (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "ClipboardAction": {
+      "description": "What the clipboard addon does with the selected history item",
+      "oneOf": [
+        {
+          "description": "Put the item back on the clipboard with all of its formats",
+          "type": "string",
+          "const": "copy"
+        },
+        {
+          "description": "Copy the item, then paste it into the window that had focus before\nRaffi opened (Hyprland only)",
+          "type": "string",
+          "const": "hypr_paste"
+        }
+      ]
+    },
+    "ClipboardAddonConfig": {
+      "description": "Configuration for the clipboard history addon",
+      "type": "object",
+      "properties": {
+        "action": {
+          "description": "Action on Enter (default: `copy`).",
+          "$ref": "#/$defs/ClipboardAction"
+        },
+        "backend": {
+          "$ref": "#/$defs/ClipboardBackend"
+        },
+        "close_on_action": {
+          "description": "Close Raffi after copying a clipboard entry (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "description": "Unset turns it on when the backend is running at startup (a CopyQ\nprocess, or `raffi --cache-daemon` for the `raffi` backend);\n`true` or `false` overrides the detection.",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "exclude_patterns": {
+          "description": "Rust regular expressions. An entry whose complete text matches any of\nthem is not recorded by Raffi and is hidden from the browser (default:\nnone). Matching is case-sensitive unless a flag such as `(?i)` is used.\nExisting entries are hidden, not deleted, and CopyQ keeps recording.",
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "max_image_size_mb": {
+          "description": "`raffi` backend: images larger than this many MB are not recorded\n(default: 50).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "default": null,
+          "minimum": 0
+        },
+        "max_items": {
+          "description": "`raffi` backend: entries kept in the history (default: 1000).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "default": null,
+          "minimum": 0
+        },
+        "max_size_mb": {
+          "description": "`raffi` backend: total size of the history in MB before the oldest\nentries are dropped (default: 500).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "default": null,
+          "minimum": 0
+        },
+        "min_chars": {
+          "description": "Hide text entries shorter than this many characters, ignoring\nsurrounding whitespace (default: 3). Images and files are always shown.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "default": null,
+          "minimum": 0
+        },
+        "secondary_action": {
+          "description": "Action on Ctrl+Enter (default: `hypr_paste`).",
+          "$ref": "#/$defs/ClipboardAction"
+        },
+        "temporary_password_manager": {
+          "description": "Record copies carrying `x-kde-passwordManagerHint` as temporary\nentries even when no `temporary_patterns` matches, instead of skipping\nthem (default: false).",
+          "type": "boolean",
+          "default": false
+        },
+        "temporary_patterns": {
+          "description": "Rust regular expressions. An entry whose complete text matches any of\nthem is recorded as a temporary entry of Raffi's history, kept for\n`temporary_timeout` seconds (default: none). `exclude_patterns` wins\nover these, and CopyQ keeps recording everything.",
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "temporary_timeout": {
+          "description": "Seconds a temporary entry stays in Raffi's history (default: 60).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "default": null,
+          "minimum": 0
+        },
+        "trigger": {
+          "description": "Keyword that opens the history (default: `clip`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "ClipboardBackend": {
+      "description": "Clipboard manager that stores the history browsed by the clipboard addon",
+      "oneOf": [
+        {
+          "description": "Raffi's own history when `raffi --cache-daemon` records it, else\nCopyQ when it runs. The cache service records unless CopyQ is\nrunning when it starts.",
+          "type": "string",
+          "const": "auto"
+        },
+        {
+          "description": "CopyQ, through its command line scripting API",
+          "type": "string",
+          "const": "copyq"
+        },
+        {
+          "description": "Raffi's own history, recorded by `raffi --cache-daemon`",
+          "type": "string",
+          "const": "raffi"
+        }
+      ]
+    },
+    "ClipboardHistory": {
+      "description": "Clipboard manager used for `{clipboard:N}` snippet placeholders",
+      "oneOf": [
+        {
+          "description": "Use whichever of cliphist, CopyQ or clipman is running",
+          "type": "string",
+          "const": "auto"
+        },
+        {
+          "description": "Read history with `cliphist list` and `cliphist decode`",
+          "type": "string",
+          "const": "cliphist"
+        },
+        {
+          "description": "Read history with `copyq read`",
+          "type": "string",
+          "const": "copyq"
+        },
+        {
+          "description": "Read clipman's JSON history file",
+          "type": "string",
+          "const": "clipman"
+        },
+        {
+          "description": "Disable clipboard history placeholders",
+          "type": "string",
+          "const": "none"
+        }
+      ]
+    },
+    "ColorAddonConfig": {
+      "description": "Configuration for the inline color converter addon",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after copying a color value (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "Compositor": {
+      "description": "The compositor Raffi runs in, for window switching, launching and log out.",
+      "type": "string",
+      "enum": [
+        "hyprland",
+        "niri",
+        "sway"
+      ]
+    },
+    "CurrencyAddonConfig": {
+      "description": "Configuration for the currency addon",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after copying a conversion result (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "currencies": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "default": null,
+          "items": {
+            "type": "string"
+          }
+        },
+        "default_currency": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "sources": {
+          "description": "Exchange rate sources in the order they are tried; the next one is\ncontacted only when the previous one fails or has none of the\nrequested rates. Default: `[frankfurter]`, so no other site is\ncontacted unless listed here. An empty list contacts nothing, and\nconversions report an error.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/CurrencyRateSource"
+          }
+        },
+        "trigger": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "CurrencyRateProvider": {
+      "description": "A service the currency converter can fetch exchange rates from",
+      "oneOf": [
+        {
+          "description": "Frankfurter (api.frankfurter.dev): European Central Bank reference rates",
+          "type": "string",
+          "const": "frankfurter"
+        },
+        {
+          "description": "The Bank of England's daily rates, as published by allratestoday.com",
+          "type": "string",
+          "const": "bank_of_england"
+        }
+      ]
+    },
+    "CurrencyRateSource": {
+      "description": "One entry of `addons.currency.sources`: a provider name, or a provider\ntogether with the URL to fetch it from",
+      "anyOf": [
+        {
+          "description": "The provider at its usual address, e.g. `frankfurter`",
+          "$ref": "#/$defs/CurrencyRateProvider"
+        },
+        {
+          "description": "The provider's response format served from another address, such as\na mirror or a proxy",
+          "type": "object",
+          "properties": {
+            "provider": {
+              "$ref": "#/$defs/CurrencyRateProvider"
+            },
+            "url": {
+              "description": "Full URL of the endpoint; for `frankfurter` the `base` and\n`symbols` query parameters are appended",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "url"
+          ]
+        }
+      ]
+    },
+    "DevtoolsAddonConfig": {
+      "description": "Configuration for the developer tools addon: the `dev` transform list\nand the inline `uuid` and `pw` generators",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after copying a generated or transformed value (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "password_length": {
+          "description": "Length of passwords generated by `pw` without a length, from 8 to 128\n(default: 20).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "default": null,
+          "maximum": 128,
+          "minimum": 8
+        },
+        "trigger": {
+          "description": "Keyword that opens the transform list (default: `dev`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "EmojiAddonConfig": {
+      "description": "Configuration for the emoji picker addon",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "close_on_action": {
+          "description": "Close Raffi after executing an emoji action (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "data_files": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "default": null,
+          "items": {
+            "type": "string"
+          }
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "secondary_action": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "trigger": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "FaviconService": {
+      "description": "Service asked for the favicons of sites the browsers have none for",
+      "oneOf": [
+        {
+          "description": "twenty-icons.com, the Vicinae default",
+          "type": "string",
+          "const": "twenty"
+        },
+        {
+          "description": "Google's favicon service",
+          "type": "string",
+          "const": "google"
+        },
+        {
+          "description": "Never download; only use what the browsers stored",
+          "type": "string",
+          "const": "none"
+        }
+      ]
+    },
+    "FileBrowserAddonConfig": {
+      "description": "Configuration for the file browser addon",
+      "type": "object",
+      "properties": {
+        "action": {
+          "description": "Action on Enter for files: `open` (xdg-open), `copy`, `insert`, or a\nshell command where `{value}` is the full path. Defaults to `open`.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "close_on_action": {
+          "description": "Close Raffi after executing a file browser action (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "fido_style": {
+          "description": "Edit paths the way Emacs fido-mode does: Backspace on a trailing `/`\ngoes up to the parent directory, and typing `~/` or `/` right after a\n`/` starts over from home or the root. Off, the input is plain text.",
+          "type": "boolean",
+          "default": true
+        },
+        "file_manager": {
+          "description": "File manager opened with Ctrl+B on the browsed directory. `{value}` is\nreplaced by the directory, otherwise it is appended as the last\nargument. Nautilus, Dolphin, Nemo and Caja also get the selected entry\nhighlighted. Autodetected when unset.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "preview_command": {
+          "description": "Command that previews the selected entry in the preview pane.\nUnset uses the previewer bundled with raffi when python3 is\ninstalled; `none` turns it off. A command runs through `sh -c` with\nthe path appended as the last argument (also in `$RAFFI_VALUE`) and\nprints ANSI text or a Script Filter preview object; no output or a\nnon-zero exit keeps the built-in preview. Killed after 3 seconds.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "secondary_action": {
+          "description": "Action on Ctrl+Enter for files and directories, with the same values as\n`action`. Defaults to `copy`.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "show": {
+          "description": "Initial filter of the listing: `all`, `files` or `directories`;\nCtrl+Tab cycles through them.",
+          "$ref": "#/$defs/FileBrowserShow"
+        },
+        "show_hidden": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "sort": {
+          "description": "Initial order of the listing; Ctrl+S cycles through the modes.\nDirectories are always listed first.",
+          "$ref": "#/$defs/FileBrowserSort"
+        },
+        "sort_reverse": {
+          "description": "Reverse the sort order: Z to A, or oldest first for date sorts.\nDirectories stay first and Ctrl+S keeps this setting.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "FileBrowserShow": {
+      "description": "Which entries the file browser lists",
+      "oneOf": [
+        {
+          "description": "Directories and files",
+          "type": "string",
+          "const": "all"
+        },
+        {
+          "description": "Files only",
+          "type": "string",
+          "const": "files"
+        },
+        {
+          "description": "Directories only (`dirs` and `directory` are accepted as aliases)",
+          "type": "string",
+          "enum": [
+            "directories",
+            "dirs",
+            "directory"
+          ]
+        }
+      ]
+    },
+    "FileBrowserSort": {
+      "description": "Order of file browser entries",
+      "oneOf": [
+        {
+          "description": "Alphabetical, case-insensitive",
+          "type": "string",
+          "const": "name"
+        },
+        {
+          "description": "Last modification time, newest first (`date` is accepted as an alias)",
+          "type": "string",
+          "const": "modified"
+        },
+        {
+          "description": "Creation time, newest first, where the filesystem records it",
+          "type": "string",
+          "const": "created"
+        }
+      ]
+    },
+    "GeneralConfig": {
+      "description": "General configuration for persistent defaults",
+      "type": "object",
+      "properties": {
+        "blur": {
+          "description": "Ask the compositor to blur what shows through the window\n(KDE/KWin; other compositors use their own rules). Default: true.",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "clipboard_history": {
+          "description": "Clipboard manager for `{clipboard:N}` snippet placeholders",
+          "$ref": "#/$defs/ClipboardHistory"
+        },
+        "close_on_action": {
+          "description": "Close Raffi after executing an action (default: true).\nAddon and launcher `close_on_action` settings override this.",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "default_script_shell": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "fallbacks": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "font_family": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "font_size": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float",
+          "default": null
+        },
+        "launch": {
+          "description": "How launchers start their program: `auto` (default) asks Hyprland,\nniri or sway to start it, `direct` starts it from Raffi.",
+          "$ref": "#/$defs/LaunchMode"
+        },
+        "main_view": {
+          "description": "Sources mixed into the main view. An object with `entries` (the sources\nto show, in order) and `exclude` (sources to remove after resolving).\nA plain list is accepted as shorthand for `{ entries: <list> }`.\nNull or empty entries shows only apps and custom entries.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MainViewConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": {
+            "entries": [
+              "launchers",
+              "windows",
+              "browser_tabs",
+              "bookmarks",
+              "system",
+              "media",
+              "audio",
+              "bluetooth",
+              "pass",
+              "clipboard",
+              "bitwarden",
+              "terminal",
+              "emoji"
+            ],
+            "exclude": []
+          }
+        },
+        "main_view_chips": {
+          "description": "What the chips row above the apps shows on an empty query when\n`main_view` is set: `name` (default), `keyword` or `off`",
+          "$ref": "#/$defs/MainViewChips"
+        },
+        "max_history": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "default": null,
+          "minimum": 0
+        },
+        "no_icons": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "opacity": {
+          "description": "Opacity of the window backgrounds, from 0.0 (see-through) to 1.0\n(the theme as designed). Text and icons stay opaque. Default: 0.95.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float",
+          "default": null,
+          "maximum": 1.0,
+          "minimum": 0.0
+        },
+        "padding": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float",
+          "default": null
+        },
+        "preview": {
+          "description": "Appearance of the right-hand preview pane (font, size, colours, width)",
+          "$ref": "#/$defs/PreviewConfig"
+        },
+        "raise_running": {
+          "description": "Focus an app's open window instead of starting it again (default:\nfalse). Launchers can set `raise` and `window_class`. Raffi's own\nwindow only, on Hyprland, niri and sway.",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "renderer": {
+          "description": "Renderer for the window: `auto` (default: `gpu` when `opacity` is\nbelow 1, else `cpu`), `cpu` (faster to open, opaque on Wayland) or `gpu`.\nAn `ICED_BACKEND` environment variable takes precedence.",
+          "$ref": "#/$defs/Renderer"
+        },
+        "show_preview": {
+          "description": "Show the Alfred-style right-hand preview pane.\nUnset shows previews for addons (snippets, file browser, script filters, etc.)\nbut not for standard launcher entries unless the entry sets `show_preview: true`.\n`true` previews launcher entries too; `false` hides the pane everywhere except\nentries with their own `show_preview: true`. Can also be toggled at runtime with Ctrl+P.",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "show_tips": {
+          "description": "Show a tip about a keyword in the empty search box, such as\n`clip for Clipboard history` (default: true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "sort_mode": {
+          "$ref": "#/$defs/SortMode"
+        },
+        "terminal_classes": {
+          "description": "Extra window classes treated as terminals by `hypr_paste` (sent Ctrl+Shift+V\ninstead of Ctrl+V). Added to the built-in list; matched case-insensitively.",
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "theme": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "theme_colors": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ThemeColorsConfig"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ui_type": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "vim_mode": {
+          "description": "Start with modal vim keybindings in normal mode (default: false).\nToggle at runtime with Ctrl+Alt+V.",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "window_height": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float",
+          "default": null
+        },
+        "window_width": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float",
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "KillAddonConfig": {
+      "description": "Configuration for the kill process addon",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after sending a signal instead of staying open and refreshing\nthe list (default: `general.close_on_action`, else false).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "trigger": {
+          "description": "Keyword that opens the process list (default: `kill`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "LaunchMode": {
+      "description": "How launchers start their program",
+      "oneOf": [
+        {
+          "description": "Ask Hyprland, niri or sway to start it when Raffi runs in one, so the\nprogram belongs to the session and follows its rules; elsewhere Raffi\nstarts it",
+          "type": "string",
+          "const": "auto"
+        },
+        {
+          "description": "Raffi starts it, and the program inherits Raffi's environment",
+          "type": "string",
+          "const": "direct"
+        }
+      ]
+    },
+    "MainViewChips": {
+      "description": "What the chips on an empty main view query show",
+      "oneOf": [
+        {
+          "description": "A short name such as \"Tabs\" or \"Clipboard\"",
+          "type": "string",
+          "const": "name"
+        },
+        {
+          "description": "The keyword that starts the plugin, such as `tabs` or `clip`",
+          "type": "string",
+          "const": "keyword"
+        },
+        {
+          "description": "No chips: an empty query starts with the apps",
+          "type": "string",
+          "const": "off"
+        }
+      ]
+    },
+    "MainViewConfig": {
+      "description": "Main view sources: a list of entry names, or an object with entries and exclude lists",
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entries": {
+              "description": "Sources to show in the main view",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "exclude": {
+              "description": "Sources to exclude from the main view",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "MediaAddonConfig": {
+      "description": "Configuration for the media controls addon",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after an action instead of staying open and refreshing\nthe list (default: `general.close_on_action`, else false).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "trigger": {
+          "description": "Keyword that opens the media controls (default: `media`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "OneOrMany": {
+      "description": "A single value, or a list of them.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Compositor"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Compositor"
+          }
+        }
+      ]
+    },
+    "OneOrMany2": {
+      "description": "A single value, or a list of them.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "PassAddonConfig": {
+      "description": "Configuration for the pass (password-store) addon",
+      "type": "object",
+      "properties": {
+        "clipboard_timeout": {
+          "description": "Seconds before a copied secret is cleared from the clipboard\n(default: 45, 0 = never).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "default": null,
+          "minimum": 0
+        },
+        "close_on_action": {
+          "description": "Close Raffi after copying a secret (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "pinentry": {
+          "description": "Who asks for the GPG passphrase: `raffi` (default) or `agent`.",
+          "$ref": "#/$defs/PassPinentry"
+        },
+        "store_dir": {
+          "description": "Password store directory (default: `$PASSWORD_STORE_DIR`, else\n`~/.password-store`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "trigger": {
+          "description": "Keyword that opens the password list (default: `pass`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "type_delay_ms": {
+          "description": "Milliseconds to wait after Raffi closes before typing (default: 200).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "default": null,
+          "minimum": 0
+        },
+        "username_fields": {
+          "description": "`key: value` lines read as the username, tried in this order (default:\n`login`, `user`, `username`). Falls back to the entry file name.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "default": null,
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "PassPinentry": {
+      "description": "Who asks for the GPG passphrase when a pass entry needs one",
+      "oneOf": [
+        {
+          "description": "Raffi shows its own masked prompt and hands the passphrase to gpg\nthrough loopback pinentry",
+          "type": "string",
+          "const": "raffi"
+        },
+        {
+          "description": "Raffi closes and gpg-agent shows its usual pinentry (smartcards,\nYubiKeys, or setups that forbid loopback)",
+          "type": "string",
+          "const": "agent"
+        }
+      ]
+    },
+    "PreviewColorsConfig": {
+      "description": "Colour overrides for the right-hand preview pane (hex: #RGB, #RRGGBB, or #RRGGBBAA).",
+      "type": "object",
+      "properties": {
+        "accent": {
+          "description": "Headings, badges and hero values",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "bg": {
+          "description": "Background of the whole preview pane",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "bg_block": {
+          "description": "Background of the content/code blocks inside the pane",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "border": {
+          "description": "Pane and block borders",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text_main": {
+          "description": "Title and main text colour",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text_muted": {
+          "description": "Subtitles, metadata keys and hints",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "PreviewConfig": {
+      "description": "Appearance settings for the right-hand preview pane.",
+      "type": "object",
+      "properties": {
+        "colors": {
+          "description": "Colour overrides for the preview pane",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PreviewColorsConfig"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "font_family": {
+          "description": "Font family for the preview pane, including message, snippet and\nclipboard text (default: the UI font)",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "font_size": {
+          "description": "Base font size in px for preview text (default: 0.8 × general font_size,\n16 at the default 20). Title, headings and hero values scale from it.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float",
+          "default": null
+        },
+        "mono_font_family": {
+          "description": "Monospace font family for code blocks such as file contents, commands\nand script output (default: system monospace)",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "width_percent": {
+          "description": "Width of the preview pane as a percentage of the window (10-80, default: 50)",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float",
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "RaffiConfig": {
+      "description": "Represents the configuration for each Raffi entry.",
+      "type": "object",
+      "properties": {
+        "alias": {
+          "description": "Route this launcher to an internal command: picking it types this text\nfor you, such as `mp linus/linux` (an addon keyword\nfollowed by its query). Cannot be combined with `binary`, `script`,\n`args` or `env`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "args": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "binary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "close_on_action": {
+          "description": "Close Raffi after launching this entry (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "disabled": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "env": {
+          "description": "Environment variables set for the binary or script, added to Raffi's\nown environment. Values expand `~/` and `${VAR}`.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "icon": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ifcompositor": {
+          "description": "Show the entry only inside this compositor, or one of these:\n`hyprland`, `niri`, `sway`.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OneOrMany"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ifenveq": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "ifenvnotset": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ifenvset": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ifexist": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "keyword": {
+          "description": "Keyword that stands for `alias` while typing: with keyword `linoux`,\ntyping `linoux torvalds` searches `mp linus/linux torvalds`\nwhile the input keeps showing `linoux torvalds`. Requires `alias`; no\nwhitespace.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "raise": {
+          "description": "Focus the app's open window instead of starting it again\n(default: `general.raise_running`, else false).",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "script": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "show_preview": {
+          "description": "Show the right-hand preview pane when this launcher entry is selected (default: false).",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "window_class": {
+          "description": "Window class (Hyprland, Xwayland) or app ID (niri, sway) of the app's\nwindows, for `raise` (default: the binary name).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OneOrMany2"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "Renderer": {
+      "description": "How Raffi draws its window",
+      "oneOf": [
+        {
+          "description": "`gpu` when `opacity` is below 1, since only the GPU renderer shows\ntransparency on Wayland, `cpu` otherwise",
+          "type": "string",
+          "const": "auto"
+        },
+        {
+          "description": "Software rendering: opens faster because no GPU driver has to be loaded.\nThe window stays opaque on Wayland.",
+          "type": "string",
+          "const": "cpu"
+        },
+        {
+          "description": "GPU rendering through Vulkan, falling back to software if no GPU is usable",
+          "type": "string",
+          "const": "gpu"
+        }
+      ]
+    },
+    "ScriptFilterConfig": {
+      "description": "Configuration for a script filter addon",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "args": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "cache_seconds": {
+          "description": "How long a query's items and previews stay fresh before Raffi refreshes\nthem in the background. Unset disables caching, so side-effecting\nscripts never run from or through the cache.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "default": null,
+          "minimum": 0
+        },
+        "close_on_action": {
+          "description": "Close Raffi after executing an action on a result (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "command": {
+          "type": "string"
+        },
+        "dynamic_preview": {
+          "description": "Re-run the command with `RAFFI_PREVIEW=1` for the selected item and show\nthe preview object it prints (default: true).",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "env": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {}
+        },
+        "icon": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "keyword": {
+          "type": "string"
+        },
+        "min_query_length": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0
+        },
+        "name": {
+          "type": "string"
+        },
+        "secondary_action": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "warm_interval_seconds": {
+          "description": "Seconds between background warming runs for `warm_queries` (default:\n`cache_seconds`).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "default": null,
+          "minimum": 0
+        },
+        "warm_queries": {
+          "description": "Queries the cache daemon warms periodically, such as `[\"\", \"review\"]`.",
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "command",
+        "keyword"
+      ]
+    },
+    "SlackAddonConfig": {
+      "description": "Configuration for the Slack addon",
+      "type": "object",
+      "properties": {
+        "cache_minutes": {
+          "description": "Minutes the cached conversations, people, muted conversations and\nsearches count as fresh before Raffi asks Slack again (default: 60);\n0 asks every time. Cached rows and previews show at once while the\nfresh ones load.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "default": null,
+          "minimum": 0
+        },
+        "close_on_action": {
+          "description": "Close Raffi after opening a conversation or message (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "cookie_command": {
+          "description": "Shell command printing the value of the `d` cookie, needed with a\nsession (`xoxc-`) token.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "description": "Off by default: the addon needs a Slack token.",
+          "type": "boolean",
+          "default": false
+        },
+        "message_order": {
+          "description": "Order of the messages in the previews (default: `newest_first`).\nThreads keep their first message on top.",
+          "$ref": "#/$defs/SlackMessageOrder",
+          "default": "newest_first"
+        },
+        "open_in": {
+          "description": "Open conversations in the desktop app or in the browser (default:\ndesktop). Ctrl+Enter uses the other one.",
+          "$ref": "#/$defs/SlackOpenIn",
+          "default": "desktop"
+        },
+        "token_command": {
+          "description": "Shell command printing the Slack token: a user token (`xoxp-`) from\nyour own Slack app, or the session token (`xoxc-`) of a logged-in\nbrowser tab.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "trigger": {
+          "description": "Keyword that opens the Slack list (default: `slack`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "unread_conversations": {
+          "description": "Conversations to check for unread messages (`#channel`, `@user` or\nan id), up to 30, used when Slack does not report unread\nconversations for the token, as with `xoxp-` tokens.",
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "warm_interval_minutes": {
+          "description": "Minutes between cache-daemon warming runs for the Slack views\n(default: `cache_minutes` when it is above 0).",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "default": null,
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "SlackMessageOrder": {
+      "description": "Order of the messages in the Slack previews",
+      "oneOf": [
+        {
+          "description": "The newest message on top",
+          "type": "string",
+          "const": "newest_first"
+        },
+        {
+          "description": "The oldest message on top, as in Slack",
+          "type": "string",
+          "const": "oldest_first"
+        }
+      ]
+    },
+    "SlackOpenIn": {
+      "description": "Where the Slack addon opens conversations",
+      "oneOf": [
+        {
+          "description": "The Slack desktop app, through `slack://` links",
+          "type": "string",
+          "const": "desktop"
+        },
+        {
+          "description": "The browser, through `https://app.slack.com` links",
+          "type": "string",
+          "const": "browser"
+        }
+      ]
+    },
+    "SortMode": {
+      "description": "Sort mode for launcher entries, text snippets and password entries by past use",
+      "oneOf": [
+        {
+          "description": "Sort by launch count (most frequently used first)",
+          "type": "string",
+          "const": "frequency"
+        },
+        {
+          "description": "Sort by last-used time (most recently used first)",
+          "type": "string",
+          "const": "recency"
+        },
+        {
+          "description": "Combined score: 40% frequency + 60% recency",
+          "type": "string",
+          "const": "hybrid"
+        }
+      ]
+    },
+    "SystemAddonConfig": {
+      "description": "Configuration for the system commands addon",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after running a system command (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "commands": {
+          "$ref": "#/$defs/SystemCommandsConfig"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "hide": {
+          "description": "Entries left out of the list.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SystemCommand"
+          }
+        },
+        "trigger": {
+          "description": "Keyword that opens the list (default: `sys`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "SystemCommand": {
+      "description": "A built-in entry of the system commands addon",
+      "type": "string",
+      "enum": [
+        "lock",
+        "display_off",
+        "suspend",
+        "hibernate",
+        "logout",
+        "reboot",
+        "shutdown"
+      ]
+    },
+    "SystemCommandsConfig": {
+      "description": "Commands replacing the built-in ones of the system commands addon, as\nargument lists run without a shell. An empty list hides the entry.",
+      "type": "object",
+      "properties": {
+        "display_off": {
+          "description": "Default: Hyprland's dpms dispatcher on Hyprland (through `hyprctl eval`\nwith a Lua config, `hyprctl dispatch dpms off` otherwise),\n`niri msg action power-off-monitors` on niri,\n`swaymsg 'output * power off'` on sway; omitted without a supported compositor.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "default": null,
+          "items": {
+            "type": "string"
+          }
+        },
+        "hibernate": {
+          "description": "Default: `systemctl hibernate`.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "default": null,
+          "items": {
+            "type": "string"
+          }
+        },
+        "lock": {
+          "description": "Default: `loginctl lock-session`.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "default": null,
+          "items": {
+            "type": "string"
+          }
+        },
+        "logout": {
+          "description": "Default: Hyprland's exit dispatcher on Hyprland (through `hyprctl eval`\nwith a Lua config, `hyprctl dispatch exit` otherwise),\n`niri msg action quit --skip-confirmation` on niri, `swaymsg exit` on\nsway, otherwise\n`loginctl terminate-session $XDG_SESSION_ID`.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "default": null,
+          "items": {
+            "type": "string"
+          }
+        },
+        "reboot": {
+          "description": "Default: `systemctl reboot`.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "default": null,
+          "items": {
+            "type": "string"
+          }
+        },
+        "shutdown": {
+          "description": "Default: `systemctl poweroff`.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "default": null,
+          "items": {
+            "type": "string"
+          }
+        },
+        "suspend": {
+          "description": "Default: `systemctl suspend`.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "default": null,
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "TerminalAddonConfig": {
+      "description": "Configuration for the run in terminal addon",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after running a command in the terminal (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "command": {
+          "description": "Terminal command line the command to run is appended to, such as\n`[alacritty, -e]`. Found automatically when unset: xdg-terminal-exec,\nthen `$TERMINAL`, then the first known terminal installed.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "default": null,
+          "items": {
+            "type": "string"
+          }
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "hold": {
+          "description": "Keep the terminal open once the command exits, until Enter is\npressed (default: true).",
+          "type": "boolean",
+          "default": true
+        },
+        "kitty_socket": {
+          "description": "kitty remote control address, such as\n`unix:${XDG_RUNTIME_DIR}/kitty`, as given to kitty's `listen_on`.\nRead from kitty.conf when unset.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "open_in": {
+          "description": "Where typed commands open (default: tab).",
+          "$ref": "#/$defs/TerminalOpenIn"
+        },
+        "trigger": {
+          "description": "Keyword that runs the rest of the query in a terminal (default: `>`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "TerminalOpenIn": {
+      "description": "Where the terminal addon opens typed commands",
+      "oneOf": [
+        {
+          "description": "A new tab of the running kitty or WezTerm, else a new window",
+          "type": "string",
+          "const": "tab"
+        },
+        {
+          "description": "Always a new window",
+          "type": "string",
+          "const": "window"
+        }
+      ]
+    },
+    "TextSnippet": {
+      "description": "A single text snippet entry",
+      "type": "object",
+      "properties": {
+        "icon": {
+          "description": "Emoji, icon name, or image path overriding the source icon.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "keyword": {
+          "description": "Optional short keyword; an exact match ranks the snippet first.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value"
+      ]
+    },
+    "TextSnippetSourceConfig": {
+      "description": "Configuration for a text snippet source",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "args": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "close_on_action": {
+          "description": "Close Raffi after executing a snippet action (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "command": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "directory": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "file": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "icon": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "keyword": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "placeholders": {
+          "description": "Expand dynamic placeholders such as {clipboard} and {date} in snippet values.",
+          "type": "boolean",
+          "default": true
+        },
+        "restore_clipboard": {
+          "description": "Best-effort restoration of plain text after the `hypr_paste` action.",
+          "type": "boolean",
+          "default": false
+        },
+        "secondary_action": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "snippets": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/TextSnippet"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "keyword"
+      ]
+    },
+    "ThemeColorsConfig": {
+      "description": "Per-colour overrides for the theme.",
+      "type": "object",
+      "properties": {
+        "accent": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "accent_hover": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "bg_base": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "bg_input": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "border": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "selection_bg": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text_main": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text_muted": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "UnitsAddonConfig": {
+      "description": "Configuration for the inline unit converter addon",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after copying a converted value (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "WebSearchConfig": {
+      "description": "Configuration for a web search addon",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after opening a web search URL (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "icon": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "keyword": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "keyword",
+        "url"
+      ]
+    },
+    "WindowsAddonConfig": {
+      "description": "Configuration for the window switcher addon for Hyprland, niri and sway",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after focusing or moving a window (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "trigger": {
+          "description": "Keyword that opens the window list (default: `win`).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "WorldClockAddonConfig": {
+      "description": "Configuration for the inline world clock addon",
+      "type": "object",
+      "properties": {
+        "close_on_action": {
+          "description": "Close Raffi after copying a time value (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

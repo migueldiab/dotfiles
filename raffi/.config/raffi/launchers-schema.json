@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map_of_RaffiConfig",
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/$defs/RaffiConfig"
+  },
+  "$defs": {
+    "Compositor": {
+      "description": "The compositor Raffi runs in, for window switching, launching and log out.",
+      "type": "string",
+      "enum": [
+        "hyprland",
+        "niri",
+        "sway"
+      ]
+    },
+    "OneOrMany": {
+      "description": "A single value, or a list of them.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Compositor"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Compositor"
+          }
+        }
+      ]
+    },
+    "OneOrMany2": {
+      "description": "A single value, or a list of them.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "RaffiConfig": {
+      "description": "Represents the configuration for each Raffi entry.",
+      "type": "object",
+      "properties": {
+        "alias": {
+          "description": "Route this launcher to an internal command: picking it types this text\nfor you, such as `mp linus/linux` (an addon keyword\nfollowed by its query). Cannot be combined with `binary`, `script`,\n`args` or `env`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "args": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "binary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "close_on_action": {
+          "description": "Close Raffi after launching this entry (default: `general.close_on_action`, else true).",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "disabled": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "env": {
+          "description": "Environment variables set for the binary or script, added to Raffi's\nown environment. Values expand `~/` and `${VAR}`.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "icon": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ifcompositor": {
+          "description": "Show the entry only inside this compositor, or one of these:\n`hyprland`, `niri`, `sway`.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OneOrMany"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ifenveq": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "ifenvnotset": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ifenvset": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ifexist": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "keyword": {
+          "description": "Keyword that stands for `alias` while typing: with keyword `linoux`,\ntyping `linoux torvalds` searches `mp linus/linux torvalds`\nwhile the input keeps showing `linoux torvalds`. Requires `alias`; no\nwhitespace.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "raise": {
+          "description": "Focus the app's open window instead of starting it again\n(default: `general.raise_running`, else false).",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "script": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "show_preview": {
+          "description": "Show the right-hand preview pane when this launcher entry is selected (default: false).",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "window_class": {
+          "description": "Window class (Hyprland, Xwayland) or app ID (niri, sway) of the app's\nwindows, for `raise` (default: the binary name).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OneOrMany2"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
