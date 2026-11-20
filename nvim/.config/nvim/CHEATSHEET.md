@@ -431,15 +431,6 @@ This cheatsheet is automatically generated. It includes all keymaps from:
 | `<leader>ql` | `n` | Load Session | [`lua/plugins/editor.lua:126`](https://github.com/migueldiab/neovim-dotfiles/blob/main/lua/plugins/editor.lua#L126) |
 | `<leader>qd` | `n` | Delete Session | [`lua/plugins/editor.lua:127`](https://github.com/migueldiab/neovim-dotfiles/blob/main/lua/plugins/editor.lua#L127) |
 
-## Plugin: snacks.nvim
-
-| Keymap | Mode | Description | Source |
-|--------|------|-------------|--------|
-| `<leader>gg` | `n` | Lazygit | [`lua/plugins/utils.lua:97`](https://github.com/migueldiab/neovim-dotfiles/blob/main/lua/plugins/utils.lua#L97) |
-| `<leader>gb` | `n` | [G]it [B]lame | [`lua/plugins/utils.lua:104`](https://github.com/migueldiab/neovim-dotfiles/blob/main/lua/plugins/utils.lua#L104) |
-| `<leader>b.` | `n` | New Scratch [b]uffer | [`lua/plugins/utils.lua:111`](https://github.com/migueldiab/neovim-dotfiles/blob/main/lua/plugins/utils.lua#L111) |
-| `<leader>bS` | `n` | Scratch [b]uffer [S]elect | [`lua/plugins/utils.lua:118`](https://github.com/migueldiab/neovim-dotfiles/blob/main/lua/plugins/utils.lua#L118) |
-
 ## Plugin: telescope.nvim
 
 | Keymap | Mode | Description | Source |

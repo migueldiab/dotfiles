@@ -62,78 +62,9 @@ return {
                     "mason",
                     "neo-tree",
                     "notify",
-                    "snacks_dashboard",
-                    "snacks_notif",
-                    "snacks_terminal",
-                    "snacks_win",
                     "toggleterm",
                     "trouble",
                 },
-            },
-        },
-    },
-    {
-        "folke/snacks.nvim",
-        priority = 1000,
-        lazy = false,
-        ---@type snacks.Config
-        opts = {
-            indent = {
-                enabled = false,
-            },
-            dashboard = {
-                enabled = false,
-                preset = {
-                    header = [[
-	██████╗ ██████╗  █████╗ ██╗███╗   ██╗████████╗██████╗ ███████╗███████╗
-	██╔══██╗██╔══██╗██╔══██╗██║████╗  ██║╚══██╔══╝██╔══██╗██╔════╝██╔════╝
-	██████╔╝██████╔╝███████║██║██╔██╗ ██║   ██║   ██████╔╝█████╗  █████╗
-	██╔══██╗██╔══██╗██╔══██║██║██║╚██╗██║   ██║   ██╔══██╗██╔══╝  ██╔══╝
-	██████╔╝██║  ██║██║  ██║██║██║ ╚████║   ██║   ██║  ██║███████╗███████╗
-	╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝
-
-					]],
-                },
-            },
-            lazygit = {
-                config = {
-                    os = {
-                        edit = lazygit_edit_command,
-                        editAtLine = lazygit_edit_at_line_command,
-                        editAtLineAndWait = "nvim +{{line}} {{filename}}",
-                        openDirInEditor = '[ -z "$NVIM" ] && (nvim -- {{dir}}) || (nvim --server "$NVIM" --remote-send "q" && nvim --server "$NVIM" --remote {{dir}})',
-                    },
-                },
-            },
-        },
-        keys = {
-            {
-                "<leader>gg",
-                function()
-                    open_lazygit_with_tracked_window()
-                end,
-                desc = "Lazygit",
-            },
-            {
-                "<leader>gb",
-                function()
-                    Snacks.git.blame_line()
-                end,
-                desc = "[G]it [B]lame",
-            },
-            {
-                "<leader>b.",
-                function()
-                    Snacks.scratch()
-                end,
-                desc = "New Scratch [b]uffer",
-            },
-            {
-                "<leader>bS",
-                function()
-                    Snacks.scratch.select()
-                end,
-                desc = "Scratch [b]uffer [S]elect",
             },
         },
     },

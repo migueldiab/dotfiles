@@ -25,6 +25,10 @@ def linux_CLI_essentials
   # Command Line                                              #
   #############################################################
 
+  cask 'font-hack-nerd-font'
+  #  tap 'chmouel/raffi', 'https://github.com/chmouel/raffi', trusted: true
+  # brew 'raffi' -- OUTDATED -- 
+
   return unless OS.linux?
 end
 

@@ -15,5 +15,4 @@ if status is-interactive
     alias cat='batcat'
 end
 
-# Hermes Agent command
-fish_add_path "$HOME/.local/bin"
+ set -gx WGPU_BACKEND gl

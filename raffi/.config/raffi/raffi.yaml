@@ -335,9 +335,9 @@ addons:
   # preview JSON object; no output or a non-zero exit keeps the built-in
   # preview. To customise the bundled one, copy
   # scripts/file-preview/file-preview.py from the raffi repository.
-  # file_browser:
-  #   enabled: true
-  #   show_hidden: false
+  file_browser:
+     enabled: true
+     show_hidden: true
   #   sort: name
   #   sort_reverse: false
   #   show: all
@@ -481,8 +481,8 @@ addons:
   # your launchers, with their actions such as "Firefox: New Private Window".
   # Apps with the same name or command as a launcher are skipped. Without
   # any launcher configured, apps are listed even when this is off.
-  # apps:
-  #   enabled: false
+  apps:
+     enabled: true
   #   actions: true       # Also list desktop actions
 
   # Run in terminal. Type "> htop" to run htop in a

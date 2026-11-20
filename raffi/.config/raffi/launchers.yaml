@@ -1,0 +1,7 @@
+squirrel:
+  binary: squirreldisk
+  # args: ["--private-window"]
+  icon: disk
+  description: "Squirrel Disk Usage"
+  ifexist: /home/madrax/.local/bin/squirreldisk
+
