@@ -1,3 +1,5 @@
+7zip
+acl
 alacritty
 alsa-tools
 alsa-utils
@@ -98,6 +100,8 @@ papirus-icon-theme
 passwd
 pavucontrol
 pipewire
+pipewire-audio 
+pipewire-pulse
 pkg-config
 qt6-wayland
 ripgrep
@@ -118,6 +122,7 @@ tar
 task-ssh-server
 tasksel
 thunar
+thunar-archive-plugin 
 tmux
 tree
 tuigreet
@@ -125,11 +130,13 @@ tzdata
 unzip
 usbutils
 util-linux
+vlc
 waybar
 wayland-protocols
 wayland-utils
 wget
 whiptail
-wireplumber
+wireplumber 
 wlr-randr
+xarchiver
 xwayland
