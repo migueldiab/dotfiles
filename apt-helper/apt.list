@@ -1,4 +1,9 @@
 7zip
+libgdk-pixbuf-2.0-dev
+libgtk-4-dev
+libadwaita-1-dev
+nfs-server
+rpcbind 
 acl
 alacritty
 alsa-tools
@@ -92,9 +97,7 @@ net-tools
 netbase
 nftables
 ntfs-3g
-nvidia-cuda-dev
-nvidia-driver
-nvidia-smi
+nvidia-open
 nvtop
 papirus-icon-theme
 passwd
@@ -125,6 +128,7 @@ thunar
 thunar-archive-plugin 
 tmux
 tree
+tree-sitter-cli
 tuigreet
 tzdata
 unzip

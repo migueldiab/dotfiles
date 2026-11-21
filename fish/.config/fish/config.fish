@@ -16,3 +16,6 @@ if status is-interactive
 end
 
  set -gx WGPU_BACKEND gl
+
+# Hermes Agent command
+fish_add_path "$HOME/.local/bin"
