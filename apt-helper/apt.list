@@ -105,6 +105,7 @@ pipewire
 pipewire-audio 
 pipewire-pulse
 pkg-config
+psmisc
 qt6-wayland
 ripgrep
 rpcbind 
@@ -126,6 +127,7 @@ task-ssh-server
 tasksel
 thunar
 thunar-archive-plugin 
+tig
 tmux
 tree
 tree-sitter-cli
