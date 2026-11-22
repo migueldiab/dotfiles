@@ -6,16 +6,19 @@ if status is-interactive
     alias ld='lsd -ltr'
     alias l='lsd'
     alias vi='nvim'
+    alias cat='batcat'
+
+    # GIT Aliases
     alias gs='git status'
     alias gb='git branch'
     alias gco='git checkout'
     alias gd='git diff'
     alias gcm='git commit -m'
     alias gp='git push'
-    alias cat='batcat'
+    alias pull='git stash && git checkout main && git fetch origin && git pull origin main && git stash pop'
 end
 
- set -gx WGPU_BACKEND gl
+set -gx WGPU_BACKEND gl
 
 # Hermes Agent command
 fish_add_path "$HOME/.local/bin"
