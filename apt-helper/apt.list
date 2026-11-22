@@ -1,9 +1,4 @@
 7zip
-libgdk-pixbuf-2.0-dev
-libgtk-4-dev
-libadwaita-1-dev
-nfs-server
-rpcbind 
 acl
 alacritty
 alsa-tools
@@ -64,15 +59,18 @@ iputils-ping
 joystick
 keepassxc
 less
+libadwaita-1-dev
 libclang-dev
 libdbus-1-dev
 libdisplay-info-dev
 libegl1-mesa-dev
 libgbm-dev
+libgdk-pixbuf-2.0-dev
 libghc-alsa-core-dev
 libgl1-mesa-dri:i386
 libglib2.0-dev
 libglx-mesa0:i386 
+libgtk-4-dev
 libinput-dev
 libopenblas-dev
 libpango1.0-dev
@@ -95,6 +93,7 @@ mesa-vulkan-drivers
 mesa-vulkan-drivers:i386 
 net-tools
 netbase
+nfs-server
 nftables
 ntfs-3g
 nvidia-open
@@ -108,6 +107,7 @@ pipewire-pulse
 pkg-config
 qt6-wayland
 ripgrep
+rpcbind 
 rsync
 rustup
 sed
