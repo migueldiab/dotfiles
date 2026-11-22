@@ -110,7 +110,6 @@ qt6-wayland
 ripgrep
 rpcbind 
 rsync
-rustup
 sed
 sensible-utils
 shim-signed
